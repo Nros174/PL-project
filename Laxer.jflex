@@ -14,13 +14,18 @@ import java.util.*;
 keyword = "if" | "then"  | "else"  | "endif"  | "while"  | "do"  | "endwhile"  | "print"  | "newline" | "read"
 operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" | "!=" | "&&" | "||" | [+\-*/<>=&|!-]
 Identifier = [a-zA-Z][a-zA-Z0-9]* 
+parenth = [\(|\)]]
+semicolon = [\;]
+
 
 %{
     private HashSet<String> symbolTable = new HashSet<>();
 
     public enum Sym {
         keyword,
-        operator  // เพิ่ม enum สำหรับตัวดำเนินการ
+        operator,
+	parenth,
+	semicolon  // เพิ่ม enum สำหรับตัวดำเนินการ
     }
 
 
@@ -44,6 +49,7 @@ Identifier = [a-zA-Z][a-zA-Z0-9]*
     private void logInfo(String message) {
         System.out.println(message);
     }
+  //identifier
 
     // Token class to store token type and value
     public class Token {
@@ -56,7 +62,6 @@ Identifier = [a-zA-Z][a-zA-Z0-9]*
         }
     }
 %}
-//identifier
 
 // Laxer rules
 %%
@@ -64,7 +69,6 @@ Identifier = [a-zA-Z][a-zA-Z0-9]*
     System.out.println("operator: " + yytext());
     return new Token(Sym.operator, yytext());
 }
-
 {keyword} {
     checksymbolTableAndPut(new Token(Sym.keyword, yytext()));
 }
@@ -73,4 +77,10 @@ Identifier = [a-zA-Z][a-zA-Z0-9]*
     Token token = new Token(Sym.identifier, yytext());
     checksymbolTableAndPut(token);
     return token;
+{parenth} {
+	checksymbolTableAndPut(new Token(Sym.parenth, yytext()));
+}
+{semicolon}{
+	checksymbolTableAndPut(new Token(Sym.semicolon, yytext()));
+
 }
