@@ -2,12 +2,9 @@ import java.util.*;
 
 // jflex
 %%
-// class name
-%class Laxer 
-// position error
+%class Lexer
 %line
 %column
-// run standalone 
 %standalone
 
 // Declaration
@@ -16,7 +13,7 @@ operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" |
 Identifier = [a-zA-Z][a-zA-Z0-9]* 
 parenth = [[\(|\)]]
 semicolon = [\;]
-integer      = [0-9]+
+string = \"[^\"]*\"   // Regular expression for strings
 
 %{
     private HashSet<String> symbolTable = new HashSet<>();
@@ -24,22 +21,22 @@ integer      = [0-9]+
     public enum Sym {
         keyword,
         operator,
-	parenth,
-	semicolon,  // เพิ่ม enum สำหรับตัวดำเนินการ
-	integer,
+        parenth,
+        semicolon,
+        string,  // เพิ่ม enum สำหรับ string
+        identifier
     }
 
-
-//identifier
- public boolean checkSymbolTableAndPut(Token token) {
+    // Method for identifier
+    public boolean checkSymbolTableAndPut(Token token) {
         if (token.type == Sym.identifier) {
             if (symbolTable.contains(token.value)) {
                 logInfo("Identifier \"" + token.value + "\" already exists in the symbol table.");
-                return false; // Return false if identifier already exists
+                return false;
             } else {
                 symbolTable.add(token.value);
                 logInfo("New identifier added: \"" + token.value + "\"");
-                return true; // Return true if new identifier is added
+                return true;
             }
         }
 
@@ -50,7 +47,6 @@ integer      = [0-9]+
     private void logInfo(String message) {
         System.out.println(message);
     }
-  //identifier
 
     // Token class to store token type and value
     public class Token {
@@ -64,27 +60,39 @@ integer      = [0-9]+
     }
 %}
 
-// Laxer rules
+// Lexer rules
 %%
 {operator} {
     System.out.println("operator: " + yytext());
     return new Token(Sym.operator, yytext());
 }
+
 {keyword} {
-    checksymbolTableAndPut(new Token(Sym.keyword, yytext()));
+    checkSymbolTableAndPut(new Token(Sym.keyword, yytext()));
 }
 
-{identifier} {
+{Identifier} {
     Token token = new Token(Sym.identifier, yytext());
-    checksymbolTableAndPut(token);
+    checkSymbolTableAndPut(token);
     return token;
 }
-{parenth} {
-	checksymbolTableAndPut(new Token(Sym.parenth, yytext()));
-}
-{semicolon}{
-	checksymbolTableAndPut(new Token(Sym.semicolon, yytext()));
 
+{parenth} {
+    checkSymbolTableAndPut(new Token(Sym.parenth, yytext()));
+}
+
+{semicolon} {
+    checkSymbolTableAndPut(new Token(Sym.semicolon, yytext()));
+}
+
+{string} {
+    System.out.println("string: " + yytext());
+    return new Token(Sym.string, yytext());
+}
+
+. {
+    System.err.println("Unrecognized character: " + yytext());
+    System.exit(1);
 }
 {integer}           {
                         System.out.println("integer: " + yytext());
