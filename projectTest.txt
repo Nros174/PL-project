@@ -1,0 +1,19 @@
+A + B
+-
+*
+if
+then
+id1
+id2
+id1
+"Hello World"
+/* comment*/
+" "
+c = 4 / 2 ;
+int i = 10 ;
+var ++
+if (var1 > var2) 
+{return true ; }
+else var3 --
+2.72
+1 , 2 , 3
