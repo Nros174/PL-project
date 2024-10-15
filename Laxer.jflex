@@ -11,6 +11,7 @@ import java.util.*;
 keyword = "if" | "then"  | "else"  | "endif"  | "while"  | "do"  | "endwhile"  | "print"  | "newline" | "read"
 operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" | "!=" | "&&" | "||" | [+\-*/<>=&|!-]
 Identifier = [a-zA-Z][a-zA-Z0-9]* 
+comment = \/\/.*|\/\*[\s\S]*?\*\/
 parenth = [[\(|\)]]
 semicolon = [\;]
 string = \"[^\"]*\"   // Regular expression for strings
@@ -76,7 +77,7 @@ string = \"[^\"]*\"   // Regular expression for strings
     checkSymbolTableAndPut(token);
     return token;
 }
-
+{Comment} { /* Ignore */ }
 {parenth} {
     checkSymbolTableAndPut(new Token(Sym.parenth, yytext()));
 }
