@@ -11,7 +11,7 @@ import java.util.*;
 keyword = "if" | "then"  | "else"  | "endif"  | "while"  | "do"  | "endwhile"  | "print"  | "newline" | "read"
 operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" | "!=" | "&&" | "||" | [+\-*/<>=&|!-]
 Identifier = [a-zA-Z][a-zA-Z0-9]* 
-parenth = [\(|\)]
+parenth = [[\(|\)]]
 semicolon = [\;]
 string = \"[^\"]*\"   // Regular expression for strings
 
