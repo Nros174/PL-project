@@ -13,13 +13,17 @@ import java.util.*;
 // Declaration
 keyword = "if" | "then"  | "else"  | "endif"  | "while"  | "do"  | "endwhile"  | "print"  | "newline" | "read"
 operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" | "!=" | "&&" | "||" | [+\-*/<>=&|!-]
+parenth = [\(|\)]]
+semicolon = [\;]
 
 %{
     private HashSet<String> symbolTable = new HashSet<>();
 
     public enum Sym {
         keyword,
-        operator  // เพิ่ม enum สำหรับตัวดำเนินการ
+        operator,
+	parenth,
+	semicolon  // เพิ่ม enum สำหรับตัวดำเนินการ
     }
 
     // Method for symbol table checks
@@ -53,4 +57,10 @@ operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" |
 
 {keyword} {
     checksymbolTableAndPut(new Token(Sym.keyword, yytext()));
+}
+{parenth} {
+	checksymbolTableAndPut(new Token(Sym.parenth, yytext()));
+}
+{semicolon}{
+	checksymbolTableAndPut(new Token(Sym.semicolon, yytext()));
 }
