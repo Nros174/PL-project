@@ -12,7 +12,7 @@ import java.util.*;
 
 // Declaration
 keyword = "if" | "then"  | "else"  | "endif"  | "while"  | "do"  | "endwhile"  | "print"  | "newline" | "read"
-operator = "==" | "++" | "--" | "<=" | ">=" | "[+*/<>=-]"
+operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" | "!=" | "&&" | "||" | [+\-*/<>=&|!-]
 
 %{
     private HashSet<String> symbolTable = new HashSet<>();
