@@ -94,3 +94,11 @@ string = \"[^\"]*\"   // Regular expression for strings
     System.err.println("Unrecognized character: " + yytext());
     System.exit(1);
 }
+{integer}           {
+                        System.out.println("integer: " + yytext());
+                        return new Token(Sym.integer, yytext());
+}
+
+. { 
+    System.err.println("Syntax Error: Unexpected character " + yytext()); System.exit(1); 
+}
