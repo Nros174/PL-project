@@ -16,7 +16,7 @@ operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" |
 Identifier = [a-zA-Z][a-zA-Z0-9]* 
 parenth = [[\(|\)]]
 semicolon = [\;]
-
+integer      = [0-9]+
 
 %{
     private HashSet<String> symbolTable = new HashSet<>();
@@ -25,7 +25,8 @@ semicolon = [\;]
         keyword,
         operator,
 	parenth,
-	semicolon  // เพิ่ม enum สำหรับตัวดำเนินการ
+	semicolon,  // เพิ่ม enum สำหรับตัวดำเนินการ
+	integer,
     }
 
 
@@ -84,6 +85,10 @@ semicolon = [\;]
 {semicolon}{
 	checksymbolTableAndPut(new Token(Sym.semicolon, yytext()));
 
+}
+{integer}           {
+                        System.out.println("integer: " + yytext());
+                        return new Token(Sym.integer, yytext());
 }
 
 . { 
