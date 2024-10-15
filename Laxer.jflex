@@ -13,6 +13,7 @@ import java.util.*;
 // Declaration
 keyword = "if" | "then"  | "else"  | "endif"  | "while"  | "do"  | "endwhile"  | "print"  | "newline" | "read"
 operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" | "!=" | "&&" | "||" | [+\-*/<>=&|!-]
+Identifier = [a-zA-Z][a-zA-Z0-9]* 
 
 %{
     private HashSet<String> symbolTable = new HashSet<>();
@@ -22,14 +23,16 @@ operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" |
         operator  // เพิ่ม enum สำหรับตัวดำเนินการ
     }
 
-    // Method for symbol table checks
-    private void checksymbolTableAndPut(Token token) {
-        if (symbolTable.contains(token.value)) {
-            System.out.println("Identifier \"" + token.value + "\" already in symbol table.");
-        } else {
-            symbolTable.add(token.value);
-            System.out.println("New identifier: " + token.value);
+public void checkSymbolTableAndPut(Token token) {
+        if (token.type == Sym.identifier) {
+            if (symbolTable.contains(token.value)) {
+                System.out.println("Identifier \"" + token.value + "\" already in symbol table");
+            } else {
+                symbolTable.add(token.value);
+                System.out.println("New identifier added: \"" + token.value + "\"");
+            }
         }
+        System.out.println(token);  
     }
 
     // Token class to store token type and value
@@ -53,4 +56,10 @@ operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" |
 
 {keyword} {
     checksymbolTableAndPut(new Token(Sym.keyword, yytext()));
+}
+
+{identifier} {
+    Token token = new Token(Sym.identifier, yytext());
+    checksymbolTableAndPut(token);
+    return token;
 }
