@@ -24,9 +24,11 @@ integer      = [0-9]+
     public enum Sym {
         keyword,
         operator,
-	parenth,
-	semicolon,  // เพิ่ม enum สำหรับตัวดำเนินการ
-	integer,
+        Identifier,
+	    parenth,
+	    semicolon,  // เพิ่ม enum สำหรับตัวดำเนินการ
+	    integer,
+        string,
     }
 
 
@@ -61,6 +63,11 @@ integer      = [0-9]+
             this.type = type;
             this.value = value;
         }
+    }
+    //error handler
+    public void SyntaxErrorHandler(Sring errorMessage){
+        System.out.println("Syntax Error at line "+yyline+",column "+yycolumn+": "+ errorMessage);
+        System.exit(1);
     }
 %}
 
