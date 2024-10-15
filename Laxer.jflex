@@ -14,7 +14,7 @@ import java.util.*;
 keyword = "if" | "then"  | "else"  | "endif"  | "while"  | "do"  | "endwhile"  | "print"  | "newline" | "read"
 operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" | "!=" | "&&" | "||" | [+\-*/<>=&|!-]
 Identifier = [a-zA-Z][a-zA-Z0-9]* 
-parenth = [\(|\)]]
+parenth = [[\(|\)]]
 semicolon = [\;]
 
 
@@ -77,10 +77,15 @@ semicolon = [\;]
     Token token = new Token(Sym.identifier, yytext());
     checksymbolTableAndPut(token);
     return token;
+}
 {parenth} {
 	checksymbolTableAndPut(new Token(Sym.parenth, yytext()));
 }
 {semicolon}{
 	checksymbolTableAndPut(new Token(Sym.semicolon, yytext()));
 
+}
+
+. { 
+    System.err.println("Syntax Error: Unexpected character " + yytext()); System.exit(1); 
 }
