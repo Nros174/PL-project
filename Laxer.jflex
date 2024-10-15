@@ -23,16 +23,26 @@ Identifier = [a-zA-Z][a-zA-Z0-9]*
         operator  // เพิ่ม enum สำหรับตัวดำเนินการ
     }
 
-public void checkSymbolTableAndPut(Token token) {
+
+//identifier
+ public boolean checkSymbolTableAndPut(Token token) {
         if (token.type == Sym.identifier) {
             if (symbolTable.contains(token.value)) {
-                System.out.println("Identifier \"" + token.value + "\" already in symbol table");
+                logInfo("Identifier \"" + token.value + "\" already exists in the symbol table.");
+                return false; // Return false if identifier already exists
             } else {
                 symbolTable.add(token.value);
-                System.out.println("New identifier added: \"" + token.value + "\"");
+                logInfo("New identifier added: \"" + token.value + "\"");
+                return true; // Return true if new identifier is added
             }
         }
-        System.out.println(token);  
+
+        logInfo(token.toString());
+        return false;
+    }
+
+    private void logInfo(String message) {
+        System.out.println(message);
     }
 
     // Token class to store token type and value
@@ -46,6 +56,7 @@ public void checkSymbolTableAndPut(Token token) {
         }
     }
 %}
+//identifier
 
 // Laxer rules
 %%
