@@ -22,10 +22,11 @@ string = \"[^\"]*\"   // Regular expression for strings
     public enum Sym {
         keyword,
         operator,
-        parenth,
-        semicolon,
-        string,  // เพิ่ม enum สำหรับ string
-        identifier
+        Identifier,
+	    parenth,
+	    semicolon,  // เพิ่ม enum สำหรับตัวดำเนินการ
+	    integer,
+        string
     }
 
     // Method for identifier
@@ -58,6 +59,11 @@ string = \"[^\"]*\"   // Regular expression for strings
             this.type = type;
             this.value = value;
         }
+    }
+    //error handler
+    public void SyntaxErrorHandler(Sring errorMessage){
+        System.out.println("Syntax Error at line "+yyline+",column "+yycolumn+": "+ errorMessage);
+        System.exit(1);
     }
 %}
 
