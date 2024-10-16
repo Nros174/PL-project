@@ -86,8 +86,11 @@ float = [0-9]+\.[0-9]+
     checkSymbolTableAndPut(token);
 
 }
+
 {comment} { /* Ignore */ }
+
 {space} {/*Ignore whitespace*/}
+
 {parenth} {
     checkSymbolTableAndPut(new Token(Sym.parenth, yytext()));
 }
