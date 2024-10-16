@@ -8,13 +8,16 @@ import java.util.*;
 %standalone
 
 // Declaration
+integer = [0-9]+
 keyword = "if" | "then"  | "else"  | "endif"  | "while"  | "do"  | "endwhile"  | "print"  | "newline" | "read"
-operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" | "!=" | "&&" | "||" | [+\-*/<>=&|!-]
-Identifier = [a-zA-Z][a-zA-Z0-9]* 
+operator = "==" | "++" | "--" | "<=" | ">=" | "+=" | "-=" | "*=" | "/=" | "%=" | "!=" | "&&" | "||" | "+" | "-" | "*" | "/" | "<" | ">" | "=" | "&" | "!"
+identifier = [a-zA-Z_][a-zA-Z0-9_]* 
 comment = \/\/.*|\/\*[\s\S]*?\*\/
-parenth = [[\(|\)]]
+parenth = [\(|\)] | [\{|\}]
 semicolon = [\;]
 string = \"[^\"]*\"   // Regular expression for strings
+space = [ \t\r\n]+
+float = [0-9]+\.[0-9]+
 
 %{
     private HashSet<String> symbolTable = new HashSet<>();
@@ -22,28 +25,28 @@ string = \"[^\"]*\"   // Regular expression for strings
     public enum Sym {
         keyword,
         operator,
-        Identifier,
+        identifier,
 	    parenth,
 	    semicolon,  // เพิ่ม enum สำหรับตัวดำเนินการ
 	    integer,
-        string
+        string,
+        space,
+        floating
     }
 
     // Method for identifier
-    public boolean checkSymbolTableAndPut(Token token) {
+    public void checkSymbolTableAndPut(Token token) {
         if (token.type == Sym.identifier) {
             if (symbolTable.contains(token.value)) {
                 logInfo("Identifier \"" + token.value + "\" already exists in the symbol table.");
-                return false;
             } else {
                 symbolTable.add(token.value);
                 logInfo("New identifier added: \"" + token.value + "\"");
-                return true;
             }
         }
-
-        logInfo(token.toString());
-        return false;
+        else{
+            logInfo(token.toString());
+        }
     }
 
     private void logInfo(String message) {
@@ -59,31 +62,32 @@ string = \"[^\"]*\"   // Regular expression for strings
             this.type = type;
             this.value = value;
         }
-    }
-    //error handler
-    public void SyntaxErrorHandler(Sring errorMessage){
-        System.out.println("Syntax Error at line "+yyline+",column "+yycolumn+": "+ errorMessage);
-        System.exit(1);
+
+        @Override
+        public String toString() {
+            return "type= " + type + ", value= " + value;
+        }
     }
 %}
 
 // Lexer rules
 %%
 {operator} {
-    System.out.println("operator: " + yytext());
-    return new Token(Sym.operator, yytext());
+    Token token = new Token(Sym.operator, yytext());
+    checkSymbolTableAndPut(token);
 }
 
 {keyword} {
     checkSymbolTableAndPut(new Token(Sym.keyword, yytext()));
 }
 
-{Identifier} {
+{identifier} {
     Token token = new Token(Sym.identifier, yytext());
     checkSymbolTableAndPut(token);
-    return token;
+
 }
-{Comment} { /* Ignore */ }
+{comment} { /* Ignore */ }
+{space} {/*Ignore whitespace*/}
 {parenth} {
     checkSymbolTableAndPut(new Token(Sym.parenth, yytext()));
 }
@@ -93,19 +97,21 @@ string = \"[^\"]*\"   // Regular expression for strings
 }
 
 {string} {
-    System.out.println("string: " + yytext());
-    return new Token(Sym.string, yytext());
+    Token token = new Token(Sym.string, yytext());
+    checkSymbolTableAndPut(token);
 }
 
-. {
-    System.err.println("Unrecognized character: " + yytext());
-    System.exit(1);
+{integer} {
+    Token token = new Token(Sym.integer, yytext());
+    checkSymbolTableAndPut(token);
 }
-{integer}           {
-                        System.out.println("integer: " + yytext());
-                        return new Token(Sym.integer, yytext());
+
+{float} {
+    Token token = new Token(Sym.floating, yytext());
+    checkSymbolTableAndPut(token);
 }
 
 . { 
-    System.err.println("Syntax Error: Unexpected character " + yytext()); System.exit(1); 
+    System.err.println("Syntax Error: Unexpected character " + yytext());
+    System.exit(1); 
 }
