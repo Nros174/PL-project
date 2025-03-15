@@ -1,0 +1,14 @@
+D:\Works\P3-1\PL\ex3\CSharpSample\bin\Debug\net8.0\CSharpSample.exe
+D:\Works\P3-1\PL\ex3\CSharpSample\bin\Debug\net8.0\CSharpSample.deps.json
+D:\Works\P3-1\PL\ex3\CSharpSample\bin\Debug\net8.0\CSharpSample.runtimeconfig.json
+D:\Works\P3-1\PL\ex3\CSharpSample\bin\Debug\net8.0\CSharpSample.dll
+D:\Works\P3-1\PL\ex3\CSharpSample\bin\Debug\net8.0\CSharpSample.pdb
+D:\Works\P3-1\PL\ex3\CSharpSample\obj\Debug\net8.0\CSharpSample.GeneratedMSBuildEditorConfig.editorconfig
+D:\Works\P3-1\PL\ex3\CSharpSample\obj\Debug\net8.0\CSharpSample.AssemblyInfoInputs.cache
+D:\Works\P3-1\PL\ex3\CSharpSample\obj\Debug\net8.0\CSharpSample.AssemblyInfo.cs
+D:\Works\P3-1\PL\ex3\CSharpSample\obj\Debug\net8.0\CSharpSample.csproj.CoreCompileInputs.cache
+D:\Works\P3-1\PL\ex3\CSharpSample\obj\Debug\net8.0\CSharpSample.dll
+D:\Works\P3-1\PL\ex3\CSharpSample\obj\Debug\net8.0\refint\CSharpSample.dll
+D:\Works\P3-1\PL\ex3\CSharpSample\obj\Debug\net8.0\CSharpSample.pdb
+D:\Works\P3-1\PL\ex3\CSharpSample\obj\Debug\net8.0\CSharpSample.genruntimeconfig.cache
+D:\Works\P3-1\PL\ex3\CSharpSample\obj\Debug\net8.0\ref\CSharpSample.dll

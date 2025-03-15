@@ -1,0 +1,11 @@
+fn main() {
+    // การประกาศตัวแปรแบบ implicit
+    let number = 10; // i32
+    let message = "Hello"; // &str
+    let pi = 3.14; // f64
+
+    // แสดงประเภทของตัวแปรโดยใช้ฟังก์ชัน `std::any::type_name`
+    println!("The type of number is: {}", std::any::type_name::<decltype(number)>());
+    println!("The type of message is: {}", std::any::type_name::<decltype(message)>());
+    println!("The type of pi is: {}", std::any::type_name::<decltype(pi)>());
+}
